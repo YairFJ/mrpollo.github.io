@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Caja de la pollería (demo)</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F2F4EF;--sf:#FFFFFF;--ink:#17261F;--mut:#5C6B63;--pri:#1F4D3A;--onpri:#FFFFFF;--acc:#F2B705;--bad:#B3261E;--ok:#1F7A4D;--line:#D9DFD6;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0F1713;--sf:#18231D;--ink:#EDF2EE;--mut:#9AA9A0;--pri:#58C28D;--onpri:#06150D;--bad:#FF8A80;--ok:#6FD6A0;--line:#2B3A32}}
+:root[data-theme="dark"]{--bg:#0F1713;--sf:#18231D;--ink:#EDF2EE;--mut:#9AA9A0;--pri:#58C28D;--onpri:#06150D;--bad:#FF8A80;--ok:#6FD6A0;--line:#2B3A32}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.4}
+main{max-width:480px;margin:0 auto;padding:16px 16px 100px}
+header{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:4px}
+h1{font-size:20px;font-weight:800;margin:0}
+h2{font-size:26px;font-weight:800;margin:14px 0 10px;letter-spacing:-.01em}
+h3{font-size:15px;font-weight:600;margin:20px 0 8px;color:var(--mut)}
+.demo{font-size:13px;color:var(--mut);margin:0 0 6px}
+.who{display:flex;border:1.5px solid var(--line);border-radius:999px;overflow:hidden;background:var(--sf)}
+.who button{border:0;background:none;color:var(--mut);font:inherit;font-size:14px;padding:6px 12px;cursor:pointer}
+.who button.on{background:var(--pri);color:var(--onpri);font-weight:600}
+button{font-family:inherit}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.prod{background:var(--sf);border:2px solid var(--line);border-radius:14px;padding:12px}
+.prod.on{border-color:var(--pri)}
+.pn{font-weight:600}
+.pp{color:var(--mut);font-size:14px;margin-bottom:10px}
+.qty{display:flex;align-items:center;justify-content:space-between}
+.qty b{font-size:22px;min-width:28px;text-align:center}
+.qty button{width:48px;height:48px;border-radius:12px;border:0;background:var(--bg);color:var(--ink);font-size:26px;cursor:pointer}
+.qty button:last-child{background:var(--pri);color:var(--onpri)}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0 12px}
+.seg button{padding:12px 4px;border-radius:12px;border:2px solid var(--line);background:var(--sf);color:var(--ink);font-size:14px;cursor:pointer}
+.seg button.on{border-color:var(--pri);background:var(--pri);color:var(--onpri);font-weight:600}
+.cta{width:100%;padding:16px;border:0;border-radius:14px;background:var(--acc);color:#17261F;font-size:18px;font-weight:800;cursor:pointer}
+.cta:disabled{opacity:.45;cursor:default}
+.card{background:var(--sf);border:1.5px solid var(--line);border-radius:14px;padding:14px}
+.row{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.row small{display:block;color:var(--mut);font-size:13px}
+.num{font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+.neg{color:var(--bad)}.pos{color:var(--ok)}
+.tag{display:inline-block;font-size:12px;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--bg);color:var(--mut);margin-left:6px}
+.tag.ret{background:var(--bad);color:var(--bg)}
+label{display:block;font-size:14px;color:var(--mut);margin:12px 0 4px}
+input,select{width:100%;padding:14px;font:inherit;font-size:18px;border:2px solid var(--line);border-radius:12px;background:var(--sf);color:var(--ink)}
+.big{font-size:44px;font-weight:800;line-height:1.1;letter-spacing:-.02em;margin:4px 0}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kpis .card b{display:block;font-size:22px;font-weight:800}
+.kpis .card span{font-size:13px;color:var(--mut)}
+.bar{display:grid;grid-template-columns:110px 1fr auto;gap:8px;align-items:center;margin:8px 0;font-size:14px}
+.bar i{display:block;height:12px;border-radius:6px;background:var(--pri)}
+.hint{font-size:13px;color:var(--mut);margin:8px 0 0}
+.res{border-radius:14px;padding:16px;margin:14px 0;border:2px solid var(--line);background:var(--sf)}
+.res.ok{border-color:var(--ok)}.res.bad{border-color:var(--bad)}
+.link{background:none;border:0;color:var(--mut);text-decoration:underline;font-size:14px;margin-top:10px;cursor:pointer}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;background:var(--sf);border-top:1.5px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+nav div{display:grid;grid-template-columns:repeat(4,1fr);width:100%;max-width:480px}
+nav button{border:0;background:none;color:var(--mut);font-size:14px;padding:16px 4px;cursor:pointer}
+nav button.on{color:var(--pri);font-weight:800;box-shadow:inset 0 3px 0 var(--pri)}
+#toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-size:15px;opacity:0;pointer-events:none;transition:opacity .2s}
+#toast.show{opacity:1}
+@media (prefers-reduced-motion: reduce){#toast{transition:none}}
+.line{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.line:last-child{border-bottom:0}
+.line .nm{flex:1;min-width:0}
+.line .nm small{display:block;color:var(--mut);font-size:13px}
+.line.on .nm b{color:var(--pri)}
+.line .st{display:flex;align-items:center;gap:6px}
+.line .st button{width:44px;height:44px;border-radius:12px;border:0;background:var(--bg);color:var(--ink);font-size:24px;cursor:pointer}
+.line .st button.pl{background:var(--pri);color:var(--onpri)}
+.line input.qi{width:72px;padding:10px 4px;text-align:center;font-size:18px}
+.line .u{font-size:13px;color:var(--mut);width:18px}
+.field2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bar{grid-template-columns:120px 1fr auto}
+.seg.s2{grid-template-columns:repeat(2,1fr)}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}
+.g4:last-child{border-bottom:0}
+.g4 span:not(:first-child){text-align:right;font-variant-numeric:tabular-nums}
+.g4.hd{color:var(--mut);font-size:13px}
+.g4.tt{font-weight:800}
+</style>
+</head>
+<body>
+<main>
+<header><h1>Caja de la pollería</h1><div class="who" id="who"></div></header>
+<p class="demo">Demo con datos de ejemplo. Lo que cargues se borra al recargar.</p>
+<div id="view"></div>
+</main>
+<nav><div id="nav"></div></nav>
+<div id="toast" role="status"></div>
+<script>
+var $=function(s){return document.querySelector(s)};
+var fmt=function(n){return new Intl.NumberFormat('es-AR',{style:'currency',currency:'ARS',maximumFractionDigits:0}).format(n)};
+var nf=new Intl.NumberFormat('es-AR',{maximumFractionDigits:2});
+var P=[{n:'Pollo',p:4200,u:'kg'},{n:'Pechuga',p:7500,u:'kg'},{n:'Pechuga con alas',p:6200,u:'kg'},{n:'Alas',p:3800,u:'kg'},{n:'Cuarto trasero',p:4000,u:'kg'},{n:'Muslo',p:4600,u:'kg'},{n:'Suprema',p:9800,u:'kg'},{n:'Menudos',p:2500,u:'kg'},{n:'Milanesas',p:9200,u:'kg'},{n:'Hamburguesas',p:8500,u:'kg'},
+{n:'Gaseosa 2,25 L',p:2250,u:'u'},{n:'Galletitas',p:1500,u:'u'},{n:'Agua',p:1200,u:'u'},{n:'Alfajor',p:1000,u:'u'}];
+var MOT=['Proveedor de pollos','Gas','Insumos','Sueldo','Retiro del dueño'];
+var TABS=[['vender','Vender'],['gastos','Gastos'],['cierre','Cierre'],['resumen','Resumen']];
+var PAYS=['Efectivo','Mercado Pago','Transferencia'];
+var S={user:'Empleada',tab:'vender',cart:{},pay:'Efectivo',sp:{m1:'Efectivo',a1:0,m2:'Mercado Pago'},open:20000,mp:22600,tr:24100,closed:null,
+sales:[{i:{0:2.5,10:1},who:'Empleada',t:'09:12',pays:{'Efectivo':12750}},{i:{1:1.2},who:'Empleada',t:'10:03',pays:{'Mercado Pago':9000}},
+{i:{4:2,5:1},who:'Empleada',t:'11:20',pays:{'Efectivo':12600}},{i:{8:1.5,3:0.5},who:'Dueño',t:'11:48',pays:{'Transferencia':15700}},
+{i:{0:3,12:2},who:'Empleada',t:'12:30',pays:{'Efectivo':15000}},{i:{6:1,3:1},who:'Empleada',t:'12:55',pays:{'Mercado Pago':13600}},
+{i:{2:2,11:2},who:'Empleada',t:'13:40',pays:{'Efectivo':7000,'Transferencia':8400}},{i:{9:1,10:2},who:'Dueño',t:'14:10',pays:{'Efectivo':13000}}],
+moves:[{mot:'Proveedor de pollos',amt:25000,who:'Dueño',t:'08:15'},{mot:'Gas',amt:8000,who:'Empleada',t:'11:05'},{mot:'Retiro del dueño',amt:10000,who:'Dueño',t:'13:30'}]};
+function r2(x){return Math.round(x*100)/100}
+function line(k,q){return Math.round(P[k].p*q)}
+function tot(it){var s=0;for(var k in it)s+=line(k,it[k]);return s}
+function qt(k,q){return nf.format(q)+(P[k].u==='kg'?' kg':'')}
+function desc(it){return Object.keys(it).map(function(k){return qt(k,it[k])+' '+P[k].n.toLowerCase()}).join(', ')}
+function now(){return new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})}
+function sumBy(arr,f,g){var o={};arr.forEach(function(x){var k=f(x);o[k]=(o[k]||0)+g(x)});return o}
+function totals(){var ing=0,byM={},byW={Empleada:{},'Dueño':{}};
+PAYS.forEach(function(m){byM[m]=0;byW.Empleada[m]=0;byW['Dueño'][m]=0});
+S.sales.forEach(function(x){ing+=tot(x.i);for(var m in x.pays){byM[m]+=x.pays[m];byW[x.who][m]+=x.pays[m]}});
+var egr=S.moves.reduce(function(a,m){return a+m.amt},0);
+return{ing:ing,egr:egr,byM:byM,byW:byW,exp:S.open+byM['Efectivo']-egr}}
+function toast(t){var e=$('#toast');e.textContent=t;e.className='show';clearTimeout(toast.h);toast.h=setTimeout(function(){e.className=''},1800)}
+function hasCart(){return Object.keys(S.cart).some(function(k){return S.cart[k]>0})}
+function payOk(){if(S.pay!=='Dividido')return true;var t=tot(S.cart),q=S.sp;return q.a1>0&&q.a1<t&&q.m1!==q.m2}
+function updBtn(){var b=$('#sb');if(!b)return;var n=hasCart(),ok=n&&payOk();b.disabled=!ok;
+b.textContent=!n?'Elegí productos':(ok?'Registrar venta de '+fmt(tot(S.cart)):'Completá el pago dividido');
+var r=$('#rest');if(r){var q=S.sp,t=tot(S.cart);r.textContent=q.m1===q.m2?'Elegí dos medios distintos.':(t>0&&q.a1>0&&q.a1<t?'Resto: '+fmt(t-q.a1)+' por '+q.m2:'El monto tiene que ser menor al total ('+fmt(t)+').')}}
+function spSet(){S.sp={m1:$('#sm1').value,a1:parseInt($('#sa1').value,10)||0,m2:$('#sm2').value};updBtn()}
+function setPay(p){S.pay=p;render()}
+function chg(i,d){var st=P[i].u==='kg'?0.5:1;S.cart[i]=Math.max(0,r2((S.cart[i]||0)+d*st));render()}
+function setQ(i,v){var q=parseFloat(String(v).replace(',','.'));S.cart[i]=(isNaN(q)||q<0)?0:r2(q);updBtn()}
+function setUser(u){S.user=u;render()}
+function go(t){S.tab=t;window.scrollTo(0,0);render()}
+function sell(){if(!hasCart()||!payOk())return;var it={},t=tot(S.cart),pays={};for(var k in S.cart)if(S.cart[k]>0)it[k]=S.cart[k];
+if(S.pay==='Dividido'){pays[S.sp.m1]=S.sp.a1;pays[S.sp.m2]=t-S.sp.a1}else pays[S.pay]=t;
+S.sales.push({i:it,who:S.user,t:now(),pays:pays});S.cart={};S.pay='Efectivo';S.sp.a1=0;S.closed=null;toast('Venta registrada');render()}
+function addMove(){var a=parseInt($('#g_amt').value,10);if(!a||a<=0){toast('Ingresá un monto');return}
+S.moves.push({mot:$('#g_mot').value,amt:a,who:S.user,t:now()});S.closed=null;toast('Gasto registrado');render()}
+function num(id){return parseInt($(id).value,10)||0}
+function digTxt(sys,app){var d=app-sys;return d===0?'<span class="pos">Coincide con lo cargado</span>':'<span class="neg">La app tiene '+fmt(Math.abs(d))+(d>0?' más':' menos')+' que lo cargado</span>'}
+function recalc(){S.mp=num('#mp');S.tr=num('#tr');var t=totals();
+$('#cm').innerHTML=digTxt(t.byM['Mercado Pago'],S.mp);$('#ct').innerHTML=digTxt(t.byM['Transferencia'],S.tr);
+var c=$('#cnt').value,e=$('#dif');
+if(c===''){e.innerHTML='<p class="hint">Contá los billetes de la caja e ingresá el total.</p>';$('#close').disabled=true;return}
+var d=parseInt(c,10)-t.exp;$('#close').disabled=false;
+e.innerHTML=d===0?'<div class="res ok"><div class="big pos">La caja cuadra</div></div>':'<div class="res bad"><div class="big neg">'+(d<0?'Faltan ':'Sobran ')+fmt(Math.abs(d))+'</div><p class="hint">Revisá si falta cargar alguna venta, gasto o retiro.</p></div>'}
+function closeBox(){var c=parseInt($('#cnt').value,10),t=totals();S.closed={exp:t.exp,cnt:c,d:c-t.exp,by:S.user,t:now()};toast('Caja cerrada');render()}
+function reopen(){S.closed=null;render()}
+
+function row(k){var p=P[k],q=S.cart[k]||0;
+return '<div class="line'+(q?' on':'')+'"><div class="nm"><b>'+p.n+'</b><small>'+fmt(p.p)+(p.u==='kg'?' por kg':' cada una')+'</small></div><div class="st"><button aria-label="Quitar '+p.n+'" onclick="chg('+k+',-1)">−</button><input class="qi" type="number" inputmode="decimal" step="any" min="0" value="'+q+'" aria-label="Cantidad de '+p.n+'" onchange="setQ('+k+',this.value)"><span class="u">'+p.u+'</span><button class="pl" aria-label="Agregar '+p.n+'" onclick="chg('+k+',1)">+</button></div></div>'}
+function opts(sel){return PAYS.map(function(m){return '<option'+(m===sel?' selected':'')+'>'+m+'</option>'}).join('')}
+function vVender(){
+var kg=[],ku=[];P.forEach(function(p,i){(p.u==='kg'?kg:ku).push(i)});
+var h='<h2>Nueva venta</h2><h3>Pollería, precio por kg</h3><div class="card">'+kg.map(row).join('')+'</div><h3>Kiosco, por unidad</h3><div class="card">'+ku.map(row).join('')+'</div>';
+h+='<h3>¿Cómo pagó?</h3><div class="seg s2">'+['Efectivo','Mercado Pago','Transferencia','Dividido'].map(function(p){return '<button class="'+(S.pay===p?'on':'')+'" onclick="setPay(\''+p+'\')">'+(p==='Dividido'?'Dividir pago':p)+'</button>'}).join('')+'</div>';
+if(S.pay==='Dividido'){var q=S.sp;
+h+='<div class="card"><div class="field2"><div><label for="sm1">Primer medio</label><select id="sm1" onchange="spSet()">'+opts(q.m1)+'</select></div><div><label for="sa1">Monto</label><input id="sa1" type="number" inputmode="numeric" min="0" value="'+(q.a1||'')+'" oninput="spSet()"></div></div><label for="sm2">El resto por</label><select id="sm2" onchange="spSet()">'+opts(q.m2)+'</select><p class="hint" id="rest"></p></div><div style="height:12px"></div>'}
+h+='<button class="cta" id="sb" onclick="sell()"></button>';
+h+='<h3>Últimas ventas</h3><div class="card">'+S.sales.slice(-4).reverse().map(function(x){
+return '<div class="row"><div>'+desc(x.i)+'<small>'+x.t+' · '+x.who+' · '+Object.keys(x.pays).join(' + ')+'</small></div><span class="num">'+fmt(tot(x.i))+'</span></div>'}).join('')+'</div>';
+return h}
+function vGastos(){
+var h='<h2>Gastos y retiros</h2><div class="card"><label for="g_amt">Monto</label><input id="g_amt" type="number" inputmode="numeric" min="0" placeholder="0">';
+h+='<label for="g_mot">Motivo</label><select id="g_mot">'+MOT.map(function(m){return '<option>'+m+'</option>'}).join('')+'</select>';
+h+='<p class="hint">Se guarda a nombre de '+S.user+'.</p><div style="height:12px"></div><button class="cta" onclick="addMove()">Registrar gasto</button></div>';
+h+='<h3>Salidas de hoy</h3><div class="card">'+S.moves.slice().reverse().map(function(m){
+return '<div class="row"><div>'+m.mot+(m.mot==='Retiro del dueño'?'<span class="tag ret">retiro</span>':'')+'<small>'+m.t+' · '+m.who+'</small></div><span class="num neg">−'+fmt(m.amt)+'</span></div>'}).join('')+'</div>';
+return h}
+function g4(a,b,c,d,cls){return '<div class="g4'+(cls||'')+'"><span>'+a+'</span><span>'+b+'</span><span>'+c+'</span><span>'+d+'</span></div>'}
+function vCierre(){
+var t=totals(),M=PAYS;
+var h='<h2>Cierre de caja</h2><h3>Lo cobrado por cada uno</h3><div class="card">'+g4('','Efectivo','M. Pago','Transf.',' hd');
+['Empleada','Dueño'].forEach(function(u){h+=g4(u,fmt(t.byW[u][M[0]]),fmt(t.byW[u][M[1]]),fmt(t.byW[u][M[2]]))});
+h+=g4('Total',fmt(t.byM[M[0]]),fmt(t.byM[M[1]]),fmt(t.byM[M[2]]),' tt')+'</div>';
+h+='<h3>Efectivo en la caja</h3><div class="card"><div class="row"><span>Efectivo al abrir</span><span class="num">'+fmt(S.open)+'</span></div><div class="row"><span>+ Cobrado en efectivo</span><span class="num pos">'+fmt(t.byM[M[0]])+'</span></div><div class="row"><span>− Gastos y retiros</span><span class="num neg">'+fmt(t.egr)+'</span></div><div class="row"><b>Debería haber</b><b class="num">'+fmt(t.exp)+'</b></div></div>';
+if(S.closed){var z=S.closed;
+h+='<div class="res '+(z.d===0?'ok':'bad')+'"><p class="hint" style="margin:0">Cerrada a las '+z.t+' por '+z.by+'</p><div class="big '+(z.d===0?'pos':'neg')+'">'+(z.d===0?'La caja cuadra':(z.d<0?'Faltaron ':'Sobraron ')+fmt(Math.abs(z.d)))+'</div><p class="hint">Esperado '+fmt(z.exp)+', contado '+fmt(z.cnt)+'.</p></div>';
+h+='<h3>Control contra la app y el banco</h3><div class="card"><div class="row"><span>Mercado Pago, app: '+fmt(S.mp)+'<small>'+digTxt(t.byM[M[1]],S.mp)+'</small></span></div><div class="row"><span>Transferencias, banco: '+fmt(S.tr)+'<small>'+digTxt(t.byM[M[2]],S.tr)+'</small></span></div></div><button class="link" onclick="reopen()">Volver a contar</button>';
+return h}
+h+='<label for="cnt">Efectivo que contaste</label><input id="cnt" type="number" inputmode="numeric" min="0" placeholder="0" oninput="recalc()"><div id="dif"></div>';
+h+='<h3>Control contra la app y el banco</h3><div class="field2"><div><label for="mp">Mercado Pago, app</label><input id="mp" type="number" inputmode="numeric" min="0" value="'+S.mp+'" oninput="recalc()"></div><div><label for="tr">Transferencias, banco</label><input id="tr" type="number" inputmode="numeric" min="0" value="'+S.tr+'" oninput="recalc()"></div></div>';
+h+='<div class="field2"><p class="hint" id="cm"></p><p class="hint" id="ct"></p></div><p class="hint">Copiá el total de hoy de cada lugar. Los valores de acá son de ejemplo.</p><div style="height:12px"></div><button class="cta" id="close" onclick="closeBox()" disabled>Cerrar caja</button>';
+return h}
+function bars(a){a=a.filter(function(x){return x.v>0}).sort(function(x,y){return y.v-x.v});var mx=a.length?a[0].v:1;
+return a.map(function(x){return '<div class="bar"><span>'+x.l+'</span><i style="width:'+Math.max(4,x.v/mx*100)+'%"></i><span class="num">'+x.t+'</span></div>'}).join('')}
+function vResumen(){
+var t=totals(),q={},kg=0;
+S.sales.forEach(function(s){for(var k in s.i){q[k]=(q[k]||0)+s.i[k];if(P[k].u==='kg')kg+=s.i[k]}});
+var ret=S.moves.filter(function(m){return m.mot==='Retiro del dueño'}).reduce(function(a,m){return a+m.amt},0);
+var prod=Object.keys(q).map(function(k){return{l:P[k].n,v:line(k,q[k]),t:qt(k,q[k])}});
+var pay=PAYS.map(function(m){return{l:m,v:t.byM[m],t:fmt(t.byM[m])}});
+var byMot=sumBy(S.moves,function(m){return m.mot},function(m){return m.amt});
+var mot=Object.keys(byMot).map(function(k){return{l:k,v:byMot[k],t:fmt(byMot[k])}});
+var h='<h2>Resumen de hoy</h2><div class="kpis"><div class="card"><span>Ingresos</span><b class="pos">'+fmt(t.ing)+'</b></div><div class="card"><span>Egresos</span><b class="neg">'+fmt(t.egr)+'</b></div>'+
+'<div class="card"><span>Queda (aprox.)</span><b>'+fmt(t.ing-t.egr)+'</b></div><div class="card"><span>Kg vendidos</span><b>'+nf.format(r2(kg))+' kg</b></div></div>';
+h+='<h3>Lo más vendido (ordenado por plata)</h3><div class="card">'+bars(prod)+'</div>';
+h+='<h3>Por medio de pago</h3><div class="card">'+bars(pay)+'</div><p class="hint">Según lo cargado en cada venta.</p>';
+h+='<h3>En qué se fue la plata</h3><div class="card">'+bars(mot)+'</div><p class="hint">Retiros del dueño hoy: '+fmt(ret)+'. Se muestran aparte para que no se pierdan entre los gastos.</p>';
+return h}
+function render(){
+$('#who').innerHTML=['Empleada','Dueño'].map(function(u){return '<button class="'+(S.user===u?'on':'')+'" onclick="setUser(\''+u+'\')">'+u+'</button>'}).join('');
+$('#nav').innerHTML=TABS.map(function(t){return '<button class="'+(S.tab===t[0]?'on':'')+'" onclick="go(\''+t[0]+'\')">'+t[1]+'</button>'}).join('');
+$('#view').innerHTML={vender:vVender,gastos:vGastos,cierre:vCierre,resumen:vResumen}[S.tab]();
+if(S.tab==='vender')updBtn();if(S.tab==='cierre'&&!S.closed)recalc()}
+var h0=location.hash.slice(1);if(TABS.some(function(t){return t[0]===h0}))S.tab=h0;
+render();
+</script>
+</body>
+</html>
